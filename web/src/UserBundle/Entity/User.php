@@ -85,7 +85,7 @@ class User implements \Serializable, UserInterface
 
 
 
-//    private $entities;
+//    private $entities123 12 ;
 
     public function __construct()
     {
@@ -267,6 +267,7 @@ class User implements \Serializable, UserInterface
     public function serialize()
     {
 //        return serialize([$this->id]);
+
         return serialize([
             $this->id,
             $this->username,
