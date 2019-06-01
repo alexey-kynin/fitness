@@ -1,0 +1,19 @@
+#UserBundle\Entity\User:
+#  user_{1..5}:
+#    username: Username<current()>
+#    email: uem<current()>@g.com
+#    password: qwer
+#    salt: <text(5)>
+#    sex: <text(5)>
+#    phone: <numberBetween(100, 100000)>
+#    plainPassword: iliketurtles
+
+UserBundle\Entity\User:
+  user:
+    username: Username
+    email: uem@g.com
+    password: qwer
+    salt: <text(5)>
+    sex: <text(5)>
+    phone: <numberBetween(100, 100000)>
+    plainPassword: qwer
