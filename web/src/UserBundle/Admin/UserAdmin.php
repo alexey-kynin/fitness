@@ -67,7 +67,6 @@ final class UserAdmin extends AbstractAdmin
 //        $roles = $container->getParameter('security.role_hierarchy.roles');
 //
 //        $rolesChoices = self::flattenRoles($roles);
-//
 //        $em = Core::em();
 //        $roleRepo = $em->getRepository(Roles::class);
 
