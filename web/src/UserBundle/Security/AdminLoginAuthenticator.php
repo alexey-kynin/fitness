@@ -18,20 +18,34 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
-use UserBundle\Form\LoginForm;
+use Symfony\Component\Security\Guard\AuthenticatorInterface;
+use UserBundle\Form\AdminLoginForm;
 
-class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
+final class AdminLoginAuthenticator extends AbstractFormLoginAuthenticator implements AuthenticatorInterface
 {
+    /**
+     * @var FormFactoryInterface
+     */
     private $formFactory;
 
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
 
+    /**
+     * @var RouterInterface
+     */
     private $router;
 
+    /**
+     * @var UserPasswordEncoderInterface
+     */
     private $passwordEncoder;
 
     public function __construct(FormFactoryInterface $formFactory, EntityManagerInterface $em, RouterInterface $router, UserPasswordEncoderInterface $passwordEncoder)
@@ -44,7 +58,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function supports(Request $request)
     {
-        if ($request->getPathInfo() != '/login' || $request->getMethod() != 'POST') {
+        if ($request->getPathInfo() != '/admin/login' || $request->getMethod() != 'POST') {
             return false;
         }
 
@@ -53,26 +67,18 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getCredentials(Request $request)
     {
-//        $isLoginSubmit = $request->getPathInfo() == '/login' && $request->isMethod('POST');
-//        if (!$isLoginSubmit) {
-//            // skip authentication
-//            return;
-//        }
-
-        $form = $this->formFactory->create(LoginForm::class);
+        $form = $this->formFactory->create( AdminLoginForm::class);
         $form->handleRequest($request);
 
         $data = $form->getData();
-        $request->getSession()->set(Security::LAST_USERNAME,$data['_username']);
+        $request->getSession()->set(Security::LAST_USERNAME,$data['email']);
+
         return $data;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         return $userProvider->loadUserByUsername($credentials['email']);
-//        $username = $credentials['_username'];
-//
-//        return $this->em->getRepository('UserBundle:User')->findOneBy(['email' => $username]);
     }
 
     public function checkCredentials($credentials, UserInterface $user)
@@ -82,18 +88,35 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if ($this->passwordEncoder->isPasswordValid($user, $password)) {
             return true;
         }
+
+        if (!$user->hasRole('ROLE_ADMIN')) {
+            throw new CustomUserMessageAuthenticationException("You don't have permission to access that page.");
+        }
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        $response = new RedirectResponse($this->router->generate('homepage'));
+        $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
 
-        return $response;
+        return new RedirectResponse($this->router->generate('admin_login'));
     }
 
     protected function getLoginUrl()
     {
-        return $this->router->generate('security_login');
+        return new RedirectResponse($this->router->generate('admin_login'));
     }
+
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    {
+//        return new RedirectResponse($this->router->generate('sonata_admin_dashboard'));
+        $user = $token->getUser();
+        if($user->isGranted( 'ROLE_ADMIN' )){
+            $url = $this->router->generate( 'sonata_admin_dashboard' );
+        }else{
+            $url = $this->router->generate( 'security_login' );
+        }
+        return new RedirectResponse( $url );
+    }
+
 
 }

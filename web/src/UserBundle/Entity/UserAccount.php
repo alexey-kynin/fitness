@@ -24,11 +24,11 @@ class UserAccount
      */
     private $id;
 
-    /**
-     * @ORM\OneToOne(targetEntity="User", inversedBy="account")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    private $user;
+//    /**
+//     * @ORM\OneToOne(targetEntity="User", inversedBy="account")
+//     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+//     */
+//    private $user;
 
     /**
      * @ORM\Column(type="string")
@@ -40,10 +40,6 @@ class UserAccount
      */
     private $lastName;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $birthday;
 
     /**
      * @ORM\Column(type="string")
@@ -115,29 +111,6 @@ class UserAccount
         return $this->lastName;
     }
 
-    /**
-     * Set birthday
-     *
-     * @param \DateTime $birthday
-     *
-     * @return UserAccount
-     */
-    public function setbirthday($birthday)
-    {
-        $this->birthday = $birthday;
-
-        return $this;
-    }
-
-    /**
-     * Get birthday
-     *
-     * @return \DateTime
-     */
-    public function getbirthday()
-    {
-        return $this->birthday;
-    }
 
     /**
      * Set gender
@@ -163,29 +136,29 @@ class UserAccount
         return $this->gender;
     }
 
-    /**
-     * Set user
-     *
-     * @param \UserBundle\Entity\User $user
-     *
-     * @return UserAccount
-     */
-    public function setUser(\UserBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \UserBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
+//    /**
+//     * Set user
+//     *
+//     * @param \UserBundle\Entity\User $user
+//     *
+//     * @return UserAccount
+//     */
+//    public function setUser(\UserBundle\Entity\User $user = null)
+//    {
+//        $this->user = $user;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get user
+//     *
+//     * @return \UserBundle\Entity\User
+//     */
+//    public function getUser()
+//    {
+//        return $this->user;
+//    }
 
     /**
      * Set tokenRecover

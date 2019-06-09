@@ -1,0 +1,25 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Alexey
+ * Date: 02.06.2019
+ * Time: 18:55
+ */
+
+namespace EventBundle\DependencyInjection;
+
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\Config\FileLocator;
+
+class EventExtension extends Extension
+{
+    public function load(array $configs, ContainerBuilder $container)
+    {
+
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+
+        $loader->load('admin.yml');
+    }
+}

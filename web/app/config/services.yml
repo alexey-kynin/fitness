@@ -37,9 +37,13 @@ services:
         resource: '../../src/DataFixtures'
         tags: ['doctrine.fixture.orm']
 
-#    app.security.login_form_authenticator:
-#        class: UserBundle\Security\LoginFormAuthenticator
-#        autowire: true
+    user.security.admin_login_form_authenticator:
+        class: UserBundle\Security\AdminLoginAuthenticator
+        autowire: true
+
+    user.security.login_form_authenticator:
+        class: UserBundle\Security\LoginFormAuthenticator
+        autowire: true
 #
 #    app.doctrine.hash_password_listener:
 #        class: UserBundle\Doctrine\HashPasswordListener
@@ -49,5 +53,9 @@ services:
 
     user.security.recover:
         class: UserBundle\Extend\Security\RecoverPassword
+        public: true
+
+    user.provider:
+        class: UserBundle\Security\User\UserProvider
         public: true
 

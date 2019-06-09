@@ -1,0 +1,18 @@
+{% extends '@App/main.html.twig' %}
+
+{% block main %}
+    <div class="block--event-list">
+        <div class="block-title">
+
+        </div>
+        <div class="block-content">
+            <div class="event-list">
+                {% for event in events %}
+                    <div class="event-list--item">
+                        {{ include('@Event/ViewModal/event_list.html.twig', { 'item' : event}) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

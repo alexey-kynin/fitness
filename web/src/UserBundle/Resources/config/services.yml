@@ -6,3 +6,23 @@ services:
   user.security.recover:
     class: UserBundle\Extend\Security\RecoverPassword
     arguments: ['@mailer', '@twig', '@doctrine.orm.entity_manager', '@router.default']
+
+  user.admin.service:
+    class: UserBundle\Admin\UserAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Content", label: "Users" }
+    arguments:
+      - ~
+      - UserBundle\Entity\User
+      - ~
+    calls:
+      - [ setTranslationDomain, [admin]]
+    public: true
+
+  user.admin.roles:
+    class: UserBundle\Admin\UserAdmin
+    arguments: [~, UserBundle\Entity\Roles, ~]
+    tags:
+      - name: sonata.admin
+        manager_type: orm
+#        show_in_dashboard: false

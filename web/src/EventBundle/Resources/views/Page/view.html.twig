@@ -1,0 +1,11 @@
+{% extends '@App/main.html.twig' %}
+
+{% block main %}
+    <div class="block--event-view">
+        <div class="block-content">
+            <h2 class="fields-event--title">{{ event.title }}</h2>
+            <div class="fields-event--description">{{ event.description }}</div>
+            <div class="fields-event--staff">{{ event.staff.name}}</div>
+        </div>
+    </div>
+{% endblock %}

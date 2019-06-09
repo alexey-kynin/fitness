@@ -20,7 +20,7 @@ class UserFixtures implements FixtureInterface
     {
         $roleRepo = $manager->getRepository(Roles::class);
         $role = $roleRepo->findOneByRole('ROLE_USER');
-        if (!role){
+        if (!$role){
             return;
         }
 

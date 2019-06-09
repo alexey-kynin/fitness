@@ -18,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use UserBundle\Entity\User;
+use UserBundle\Entity\UserAccount;
 use UserBundle\Form\Models\RegisterUserModel;
 
 class RegisterUserForm extends AbstractType
@@ -25,11 +27,13 @@ class RegisterUserForm extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName', TextType::class, [
-           'label' => 'First Name'
-        ]);
-        $builder->add('lastName', TextType::class, [
-           'label' => 'Last Name'
+//        $builder->add('firstName', TextType::class, [
+//            'data_class' => UserAccount::class,
+//            'label' => 'First Name'
+//        ]);
+        $builder->add('username', TextType::class, [
+            'data_class' => UserAccount::class,
+            'label' => 'User name'
         ]);
         $builder->add('email', RepeatedType::class, [
             'type' => EmailType::class,

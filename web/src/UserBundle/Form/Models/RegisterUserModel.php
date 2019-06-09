@@ -15,9 +15,9 @@ use UserBundle\Entity\UserAccount;
 
 class RegisterUserModel
 {
-    public $firstName;
+//    public $firstName;
 
-    public $lastName;
+    public $username;
 
     public $email;
 
@@ -28,6 +28,22 @@ class RegisterUserModel
     public $gender;
 
     public $phone;
+
+    /**
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param mixed $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
 
     /**
      * @return mixed
@@ -55,37 +71,37 @@ class RegisterUserModel
 //        $this->passwordEncoder = $passwordEncoder;
 //    }
 
-    /**
-     * @return mixed
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
+//    /**
+//     * @return mixed
+//     */
+//    public function getFirstName()
+//    {
+//        return $this->firstName;
+//    }
+//
+//    /**
+//     * @param mixed $firstName
+//     */
+//    public function setFirstName($firstName)
+//    {
+//        $this->firstName = $firstName;
+//    }
 
-    /**
-     * @param mixed $firstName
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @param mixed $lastName
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-    }
+//    /**
+//     * @return mixed
+//     */
+//    public function getLastName()
+//    {
+//        return $this->lastName;
+//    }
+//
+//    /**
+//     * @param mixed $lastName
+//     */
+//    public function setLastName($lastName)
+//    {
+//        $this->lastName = $lastName;
+//    }
 
     /**
      * @return mixed
@@ -155,13 +171,20 @@ class RegisterUserModel
     {
         $user = new User();
         $account = new UserAccount();
-        $account->setFirstName($this->firstName);
-        $account->setLastName($this->lastName);
-        $account->setBirthday($this->birthday);
-        $account->setGender($this->gender);
+
+//        $firstName = $this->firstName;
+//        $lastName = $this->lastName;
+
+//        $account->setFirstName($firstName);
+//        $account->setLastName($lastName);
+        $user->setGender($this->gender);
+
+//        $username = $firstName . $lastName;
+        $user->setUsername($this->username);
+        $user->setBirthday($this->birthday);
         $user->setEmail($this->email);
         $user->setPhone($this->phone);
-        $user->setAccount($account);
+//        $user->setAccount($account);
 
         $encoder = Core::service('security.password_encoder');
         $password = $encoder->encodePassword($user, $this->password);

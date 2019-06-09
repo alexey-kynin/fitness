@@ -29,7 +29,7 @@ class User implements \Serializable, UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string")
      */
     private $username;
 
@@ -49,19 +49,19 @@ class User implements \Serializable, UserInterface
     private $salt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
-    private $birth;
+    private $birthday;
 
-//    /**
-//     * @ORM\Column(type="string")
-//     */
-//    private $sex;
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Roles", inversedBy="users", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="user_roles")
+         * @ORM\ManyToMany(targetEntity="Roles", inversedBy="users", cascade={"persist", "remove"})
+     * @ORM\JoinTable(
+     *      name="user_roles",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     * )
      */
     private $roles;
 
@@ -71,30 +71,30 @@ class User implements \Serializable, UserInterface
     private $phone;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $gender;
+
+    /**
      * @ORM\Column(type="smallint")
      */
     private $status;
 
     private $plainPassword;
 
-    /**
-     * @ORM\OneToOne(targetEntity="UserBundle\Entity\UserAccount", mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $account;
+//    /**
+//     * @ORM\OneToOne(targetEntity="UserBundle\Entity\UserAccount", mappedBy="user", cascade={"persist", "remove"})
+//     */
+//    private $account;
 
 
-
-
-//    private $entities123 12 ;
 
     public function __construct()
     {
         $this->roles = new ArrayCollection();
-        $this->birth = new \DateTime();
         $this->status = 1;
 
         $this->salt = md5(uniqid(null, TRUE));
-        $this->username = md5(uniqid(null, TRUE));
     }
 
     /**
@@ -150,17 +150,17 @@ class User implements \Serializable, UserInterface
     /**
      * @return mixed
      */
-    public function getBirth()
+    public function getBirthday()
     {
-        return $this->birth;
+        return $this->birthday;
     }
 
     /**
-     * @param mixed $birth
+     * @param mixed $birthday
      */
-    public function setBirth($birth)
+    public function setBirthday($birthday)
     {
-        $this->birth = $birth;
+        $this->birthday = $birthday;
     }
 
     /**
@@ -178,38 +178,6 @@ class User implements \Serializable, UserInterface
     {
         $this->email = $email;
     }
-
-//    /**
-//     * @return mixed
-//     */
-//    public function getRole()
-//    {
-//        return $this->role;
-//    }
-//
-//    /**
-//     * @param mixed $role
-//     */
-//    public function setRole($role)
-//    {
-//        $this->role = $role;
-//    }
-
-//    /**
-//     * @return mixed
-//     */
-//    public function getSex()
-//    {
-//        return $this->sex;
-//    }
-//
-//    /**
-//     * @param mixed $sex
-//     */
-//    public function setSex($sex)
-//    {
-//        $this->sex = $sex;
-//    }
 
     /**
      * @return mixed
@@ -246,7 +214,11 @@ class User implements \Serializable, UserInterface
     public function getRoles()
     {
         return $this->roles->toArray();
-//        return ['ROLE_USER'];
+    }
+
+    public function hasRole($role)
+    {
+        return in_array(strtoupper($role), $this->getRoles(), true);
     }
 
     public function getPassword()
@@ -266,22 +238,19 @@ class User implements \Serializable, UserInterface
 
     public function serialize()
     {
-//        return serialize([$this->id]);
-
         return serialize([
             $this->id,
             $this->username,
-//            $this->password,
+            $this->password,
         ]);
     }
 
     public function unserialize($serialized)
     {
-//        list($this->id) = $this->unserialize($serialized);
         list (
             $this->id,
             $this->username,
-//            $this->password,
+            $this->password,
             ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 
@@ -324,10 +293,25 @@ class User implements \Serializable, UserInterface
      */
     public function addRole(\UserBundle\Entity\Roles $role)
     {
-        $this->roles[] = $role;
-
-        return $this;
+//        $this->roles[] = $role;
+//        $role->setRole($this);
+////        $this->roles->add($role);
+//
+//        return $this;
+        if ( !$this->existRole($role) );
+        $this->roles->add($role);
     }
+
+    public function existRole(\UserBundle\Entity\Roles $role)
+    {
+        foreach($this->roles as $temp)
+        {
+            if ( $role->getID() === $temp->getId() )
+                return true;
+        }
+        return false;
+    }
+
 
     /**
      * Remove role
@@ -337,44 +321,52 @@ class User implements \Serializable, UserInterface
     public function removeRole(\UserBundle\Entity\Roles $role)
     {
         $this->roles->removeElement($role);
+        $role->setRole($this);
     }
 
-//    public function setEntities($entity, $machine_name)
+//    /**
+//     * @return string
+//     */
+//    public function getRolesAsString()
 //    {
-//        $this->entities[$machine_name] = $entity;
+//        $roles = array();
+//        foreach ($this->getRoles() as $role) {
+//            $role = explode('_', $role);
+//            array_shift($role);
+//            $roles[] = ucfirst(strtolower(implode(' ', $role)));
+//        }
+//
+//        return implode(', ', $roles);
+//    }
+
+
+
+//    /**
+//     * Set account
+//     *
+//     * @param \UserBundle\Entity\UserAccount $account
+//     *
+//     * @return User
+//     */
+//    public function setAccount(\UserBundle\Entity\UserAccount $account = null)
+//    {
+//        $this->account = $account;
+//        $account->setUser($this);
+//
+//        return $this;
 //    }
 //
-//    public function getEntities($machine_name)
+//    /**
+//     * Get account
+//     *
+//     * @return \UserBundle\Entity\UserAccount
+//     */
+//    public function getAccount()
 //    {
-//        return isset($this->entities[$machine_name]) ? $this->entities[$machine_name] : null;
+//        return $this->account;
 //    }
 
-    /**
-     * Set account
-     *
-     * @param \UserBundle\Entity\UserAccount $account
-     *
-     * @return User
-     */
-    public function setAccount(\UserBundle\Entity\UserAccount $account = null)
-    {
-        $this->account = $account;
-        $account->setUser($this);
-
-        return $this;
-    }
-
-    /**
-     * Get account
-     *
-     * @return \UserBundle\Entity\UserAccount
-     */
-    public function getAccount()
-    {
-        return $this->account;
-    }
-
-    public function getFullname()
+    public function getFullName()
     {
         $fillName = $this->getAccount()->getFirstName();
         $lastName = $this->getAccount()->getLastName();
@@ -383,5 +375,29 @@ class User implements \Serializable, UserInterface
         }
         return $fillName;
 
+    }
+
+    /**
+     * Set gender
+     *
+     * @param string $gender
+     *
+     * @return User
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->gender;
     }
 }

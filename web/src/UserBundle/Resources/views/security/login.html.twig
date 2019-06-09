@@ -1,37 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-    {#<header class="header">#}
-        {#<ul class="navi">#}
-            {#{% if is_granted('ROLE_USER') %}#}
-                {#<li><a href="{{ path('security_logout') }}">Logout</a></li>#}
-            {#{% else %}#}
-                {#<li><a href="{{ path('security_login') }}">Login</a></li>#}
-            {#{% endif %}#}
-        {#</ul>#}
-    {#</header>#}
-
-
-    {#<div class="container">#}
-        {#<div class="row">#}
-            {#<div class="col-xs-12">#}
-                {#<h1>Login!</h1>#}
-                {#{% if error %}#}
-                    {#<div class="alert alert-danger">#}
-                        {#{{ error.messageKey|trans(error.messageData, 'security') }}#}
-                    {#</div>#}
-                {#{% endif %}#}
-
-                {#{{ form_start(form) }}#}
-                    {#{{ form_row(form._username) }}#}
-                    {#{{ form_row(form._password) }}#}
-                    {#<button type="submit" class="btn btn-success">Login <span class="fa fa-lock"></span></button>#}
-                {#{{ form_end(form) }}#}
-
-            {#</div>#}
-        {#</div>#}
-    {#</div>#}
-
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -42,12 +11,6 @@
 
     <label for="password">Password:</label>
     <input type="password" id="password" name="_password" />
-
-    {#
-        If you want to control the URL the user
-        is redirected to on success (more details below)
-        <input type="hidden" name="_target_path" value="/account" />
-    #}
 
     <button type="submit">login</button>
 {% endblock %}

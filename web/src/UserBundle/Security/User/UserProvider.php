@@ -10,42 +10,89 @@ namespace UserBundle\Security\User;
 
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use UserBundle\Entity\User;
 
+
 class UserProvider implements UserProviderInterface
 {
 
+    /**
+     * @var EntityManager
+     */
     private $em;
 
-    public function __construct( EntityManager $entityManager)
+    public function __construct( EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
     }
 
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($email)
     {
-        // Кынин. Загружаем пользователя
-        $user = $this->em->getRepository('UserBundle:User')->loadUserByUsername($username);
-        if($user){
-            return $user;
-        }else{
+        $user = $this->findOneUserBy(['email' => $email]);
+
+        if (!$user) {
             throw new UsernameNotFoundException(
-                sprintf('Username "%s" does not exit.', $username)
+                sprintf(
+                    'User UuuuuP with "%s" email does not exist.',
+                    $email
+                )
             );
         }
+
+        return $user;
+    }
+
+    private function findOneUserBy(array $options)
+    {
+        return $this->em
+            ->getRepository(User::class)
+            ->findOneBy($options);
     }
 
     public function refreshUser(UserInterface $user)
     {
-        return $this->loadUserByUsername($user->getUsername());
+        assert($user instanceof User);
+
+        if (null === $reloadedUser = $this->findOneUserBy(['id' => $user->getId()])) {
+            throw new UsernameNotFoundException(sprintf(
+                'User with ID "%s" could not be reloaded.',
+                $user->getId()
+            ));
+        }
+
+        return $reloadedUser;
     }
 
     public function supportsClass($class)
     {
-        return User::class === $class;
+        return $class === User::class;
     }
+//
+//    public function loadUserByUsername($username)
+//    {
+//        // Кынин. Загружаем пользователя
+//        $user = $this->em->getRepository('UserBundle:User')->loadUserByUsername($username);
+//        if($user){
+//            return $user;
+//        }else{
+//            throw new UsernameNotFoundException(
+//                sprintf('Username "%s" does not exit.', $username)
+//            );
+//        }
+//    }
+//
+//    public function refreshUser(UserInterface $user)
+//    {
+//        return $this->loadUserByUsername($user->getUsername());
+//    }
+//
+//    public function supportsClass($class)
+//    {
+//        return User::class === $class;
+//    }
 }

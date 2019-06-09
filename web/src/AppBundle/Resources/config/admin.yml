@@ -1,0 +1,12 @@
+services:
+  app.admin.post:
+    class: AppBundle\Admin\EventAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Content", label: "Event" }
+    arguments:
+      - ~
+      - EventBundle\Entity\Event
+      - ~
+    calls:
+      - [ setTranslationDomain, [EventBundle]]
+    public: true

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Alexey
- * Date: 23.05.2019
- * Time: 17:00
- */
 
 namespace UserBundle\Entity;
 
@@ -48,6 +42,11 @@ class Roles extends Role
         $this->users = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     /**
      * @return mixed
      */
@@ -61,7 +60,13 @@ class Roles extends Role
      */
     public function setRole($role)
     {
-        $this->role = $role;
+//        $this->role = $role;
+
+        if(gettype($role) == "object"){
+            $this->role = new ArrayCollection();
+            $this->addRole($role);
+        } else { $this->role = $role; }
+
     }
 
 

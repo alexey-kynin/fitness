@@ -1,4 +1,0 @@
-UserBundle\Entity\Roles:
-  roles:
-    name: "USER_ROLE"
-    role: "USER_ROLE"

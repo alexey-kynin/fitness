@@ -1,0 +1,7 @@
+event_list:
+  path: /event
+  defaults: { _controller: EventBundle:Event:list }
+
+event_view:
+  path: /event/{id}
+  defaults: { _controller: EventBundle:Event:view }
