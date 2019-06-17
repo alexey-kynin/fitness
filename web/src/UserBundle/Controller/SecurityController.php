@@ -81,15 +81,19 @@ class SecurityController extends Controller
         $recoverForm->handleRequest($request);
         if($recoverForm->isSubmitted()){
             $email = $registerModal->getEmail();
+
             $user = $this->getDoctrine()->getRepository('UserBundle:User')->findOneByEmail($email);
             if($user){
                 $this->get('user.security.recover')->sendEmail($user);
             }
-            return$this->redirectToRoute('recover');
+
+            return $this->redirectToRoute('recover');
         }
 
         return $this->render('@User/security/recover.html.twig', [
             'recover_form' => $recoverForm->createView()
         ]);
     }
+
+
 }

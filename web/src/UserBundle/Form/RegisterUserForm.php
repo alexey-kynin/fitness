@@ -45,7 +45,8 @@ class RegisterUserForm extends AbstractType
             'first_options'  => ['label' => 'Email'],
             'second_options' => ['label' => 'Repeat Email'],
         ]);
-        $builder->add('password', RepeatedType::class, [
+//        $builder->add('password', RepeatedType::class, [
+        $builder->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
             'invalid_message' => 'The password fields must match.',
             'options' => ['attr' => ['class' => 'password-field']],

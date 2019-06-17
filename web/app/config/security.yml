@@ -68,6 +68,7 @@ security:
         - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
         - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/recover/*, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
             # activate different ways to authenticate
 

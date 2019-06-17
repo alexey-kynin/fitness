@@ -25,11 +25,30 @@ class RegisterUserModel
 
     public $password;
 
+    public $plainPassword;
+
     public $birthday;
 
     public $gender;
 
     public $phone;
+
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
 
 
     /**
@@ -206,7 +225,8 @@ class RegisterUserModel
         $user->setAccount($account);
 
         $encoder = Core::service('security.password_encoder');
-        $password = $encoder->encodePassword($user, $this->password);
+//        $password = $encoder->encodePassword($user, $this->password);
+        $password = $encoder->encodePassword($user, $this->plainPassword);
         $user->setPassword($password);
 
         return $user;

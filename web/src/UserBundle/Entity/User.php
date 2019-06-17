@@ -10,6 +10,7 @@ namespace UserBundle\Entity;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Acl\Exception\Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -106,13 +107,21 @@ class User implements \Serializable, UserInterface
         return $this->plainPassword;
     }
 
+//    /**
+//     * @param mixed $plainPassword
+//     */
+//    public function setPlainPassword($plainPassword)
+//    {
+//        $this->plainPassword = $plainPassword;
+//        $this->password = null;
+//    }
+
     /**
-     * @param mixed $plainPassword
+     * @param mixed $password
      */
-    public function setPlainPassword($plainPassword)
+    public function setPlainPassword($password)
     {
-        $this->plainPassword = $plainPassword;
-        $this->password = null;
+        $this->plainPassword = $password;
     }
 
 
@@ -294,11 +303,6 @@ class User implements \Serializable, UserInterface
      */
     public function addRole(\UserBundle\Entity\Roles $role)
     {
-//        $this->roles[] = $role;
-//        $role->setRole($this);
-////        $this->roles->add($role);
-//
-//        return $this;
         if ( !$this->existRole($role) );
         $this->roles->add($role);
     }
@@ -400,5 +404,38 @@ class User implements \Serializable, UserInterface
     public function getGender()
     {
         return $this->gender;
+    }
+
+    function randomPassword() {
+        $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass); //turn the array into a string
+    }
+
+    function random_str(
+        $length,
+        $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    ) {
+        $str = '';
+        $max = mb_strlen($keyspace, '8bit') - 1;
+        if ($max < 1) {
+            throw new Exception('$keyspace must be at least two characters long');
+        }
+        for ($i = 0; $i < $length; ++$i) {
+            $str .= $keyspace[random_int(0, $max)];
+        }
+        return $str;
+    }
+
+    function rand_string( $length ) {
+
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        return substr(str_shuffle($chars),0,$length);
+
     }
 }

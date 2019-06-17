@@ -56,7 +56,7 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('user');
+            return $this->redirectToRoute('user_view', ['id' => $user->getId()]);
         }
 
         return $this->render('@User/security/recover.html.twig', [
