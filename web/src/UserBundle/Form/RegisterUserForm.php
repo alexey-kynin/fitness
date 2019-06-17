@@ -9,6 +9,7 @@
 namespace UserBundle\Form;
 
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -27,13 +28,14 @@ class RegisterUserForm extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-//        $builder->add('firstName', TextType::class, [
-//            'data_class' => UserAccount::class,
-//            'label' => 'First Name'
-//        ]);
+        $builder->add('firstName', TextType::class, [
+            'label' => 'First Name'
+        ]);
+        $builder->add('lastName', TextType::class, [
+            'label' => 'Last Name'
+        ]);
         $builder->add('username', TextType::class, [
-            'data_class' => UserAccount::class,
-            'label' => 'User name'
+            'label' => 'Login'
         ]);
         $builder->add('email', RepeatedType::class, [
             'type' => EmailType::class,

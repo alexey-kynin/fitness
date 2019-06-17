@@ -36,8 +36,9 @@ user_password_recover:
 #user_own_edit:
 #  path: /user/edit
 #
-#user_view:
-#  path: /user/{is}
+user_view:
+  path: /user/{id}
+  defaults: { _controller: UserBundle:User:view }
 #
 #user_edit:
 #  path: /user/{id}/edit

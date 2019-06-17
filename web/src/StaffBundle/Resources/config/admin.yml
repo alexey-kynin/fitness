@@ -1,0 +1,12 @@
+services:
+  app.admin.staff:
+    class: StaffBundle\Admin\StaffAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Content", label: "Staff" }
+    arguments:
+      - ~
+      - StaffBundle\Entity\Staff
+      - ~
+    calls:
+      - [ setTranslationDomain, [StaffBundle]]
+    public: true

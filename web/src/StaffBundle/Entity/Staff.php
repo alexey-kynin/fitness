@@ -25,12 +25,14 @@ class Staff
     private $name;
 
     /**
-     * One Customer has One Cart.
-     * @ORM\OneToOne(targetEntity="EventBundle\Entity\Event", mappedBy="staff", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="EventBundle\Entity\Event", mappedBy="staff", cascade={"persist", "remove"})
      */
     private $event;
 
-
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     /**
      * Get id
@@ -88,5 +90,36 @@ class Staff
     public function getEvent()
     {
         return $this->event;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->event = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add event
+     *
+     * @param \EventBundle\Entity\Event $event
+     *
+     * @return Staff
+     */
+    public function addEvent(\EventBundle\Entity\Event $event)
+    {
+        $this->event[] = $event;
+
+        return $this;
+    }
+
+    /**
+     * Remove event
+     *
+     * @param \EventBundle\Entity\Event $event
+     */
+    public function removeEvent(\EventBundle\Entity\Event $event)
+    {
+        $this->event->removeElement($event);
     }
 }

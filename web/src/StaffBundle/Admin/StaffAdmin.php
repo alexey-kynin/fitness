@@ -6,7 +6,7 @@
  * Time: 17:59
  */
 
-namespace EventBundle\Admin;
+namespace StaffBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -14,20 +14,14 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
-class EventAdmin extends AbstractAdmin
+class StaffAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('title', 'text', array(
-                'label' => 'Event Title'
+            ->add('name', 'text', array(
+                'label' => 'Staff Title'
             ))
-            ->add('description', 'text', array(
-                'label' => 'Event Description'
-            ))
-            ->add('staff', null, [
-                'label' => 'staff user',
-            ])
         ;
     }
 
@@ -35,8 +29,7 @@ class EventAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('title')
-            ->add('description')
+            ->add('name')
         ;
     }
 
@@ -44,19 +37,14 @@ class EventAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('title')
-            ->add('description')
-            ->add('staff', null, [
-                'label' => 'staff user',
-            ])
+            ->addIdentifier('name')
         ;
     }
 
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('title')
-            ->add('description')
+            ->add('name')
         ;
     }
 

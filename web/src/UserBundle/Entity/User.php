@@ -82,10 +82,11 @@ class User implements \Serializable, UserInterface
 
     private $plainPassword;
 
-//    /**
-//     * @ORM\OneToOne(targetEntity="UserBundle\Entity\UserAccount", mappedBy="user", cascade={"persist", "remove"})
-//     */
-//    private $account;
+    /**
+     * @ORM\OneToOne(targetEntity="UserBundle\Entity\UserAccount", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="$account", referencedColumnName="id")
+     */
+    private $account;
 
 
 
@@ -341,41 +342,41 @@ class User implements \Serializable, UserInterface
 
 
 
-//    /**
-//     * Set account
-//     *
-//     * @param \UserBundle\Entity\UserAccount $account
-//     *
-//     * @return User
-//     */
-//    public function setAccount(\UserBundle\Entity\UserAccount $account = null)
-//    {
-//        $this->account = $account;
-//        $account->setUser($this);
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get account
-//     *
-//     * @return \UserBundle\Entity\UserAccount
-//     */
-//    public function getAccount()
-//    {
-//        return $this->account;
-//    }
-
-    public function getFullName()
+    /**
+     * Set account
+     *
+     * @param \UserBundle\Entity\UserAccount $account
+     *
+     * @return User
+     */
+    public function setAccount(\UserBundle\Entity\UserAccount $account = null)
     {
-        $fillName = $this->getAccount()->getFirstName();
-        $lastName = $this->getAccount()->getLastName();
-        if($lastName){
-            $fillName = $fillName." ".$lastName;
-        }
-        return $fillName;
+        $this->account = $account;
+        $account->setUser($this);
 
+        return $this;
     }
+
+    /**
+     * Get account
+     *
+     * @return \UserBundle\Entity\UserAccount
+     */
+    public function getAccount()
+    {
+        return $this->account;
+    }
+
+//    public function getFullName()
+//    {
+//        $fillName = $this->getAccount()->getFirstName();
+//        $lastName = $this->getAccount()->getLastName();
+//        if($lastName){
+//            $fillName = $fillName." ".$lastName;
+//        }
+//        return $fillName;
+//
+//    }
 
     /**
      * Set gender

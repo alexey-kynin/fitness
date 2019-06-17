@@ -15,7 +15,9 @@ use UserBundle\Entity\UserAccount;
 
 class RegisterUserModel
 {
-//    public $firstName;
+    public $firstName;
+
+    public $lastName;
 
     public $username;
 
@@ -28,6 +30,23 @@ class RegisterUserModel
     public $gender;
 
     public $phone;
+
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+    }
 
     /**
      * @return mixed
@@ -71,21 +90,21 @@ class RegisterUserModel
 //        $this->passwordEncoder = $passwordEncoder;
 //    }
 
-//    /**
-//     * @return mixed
-//     */
-//    public function getFirstName()
-//    {
-//        return $this->firstName;
-//    }
-//
-//    /**
-//     * @param mixed $firstName
-//     */
-//    public function setFirstName($firstName)
-//    {
-//        $this->firstName = $firstName;
-//    }
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
 
 //    /**
 //     * @return mixed
@@ -172,11 +191,11 @@ class RegisterUserModel
         $user = new User();
         $account = new UserAccount();
 
-//        $firstName = $this->firstName;
-//        $lastName = $this->lastName;
+        $firstName = $this->firstName;
+        $lastName = $this->lastName;
 
-//        $account->setFirstName($firstName);
-//        $account->setLastName($lastName);
+        $account->setFirstName($firstName);
+        $account->setLastName($lastName);
         $user->setGender($this->gender);
 
 //        $username = $firstName . $lastName;
@@ -184,7 +203,7 @@ class RegisterUserModel
         $user->setBirthday($this->birthday);
         $user->setEmail($this->email);
         $user->setPhone($this->phone);
-//        $user->setAccount($account);
+        $user->setAccount($account);
 
         $encoder = Core::service('security.password_encoder');
         $password = $encoder->encodePassword($user, $this->password);

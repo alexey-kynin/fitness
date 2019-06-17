@@ -1,0 +1,11 @@
+{% extends '@App/main.html.twig' %}
+
+{% block main %}
+    <div class="block--user-view">
+        <div class="block-content">
+            <h2 class="fields-user--title">{{ user.username }}</h2>
+            <div class="fields-user--description">{{ user.email }}</div>
+            <div class="fields-user--staff">{{ user.account.firstName}}</div>
+        </div>
+    </div>
+{% endblock %}

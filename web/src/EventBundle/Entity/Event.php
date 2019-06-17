@@ -32,7 +32,7 @@ class Event
 
 
     /**
-     * @ORM\OneToOne(targetEntity="\StaffBundle\Entity\Staff", inversedBy="event")
+     * @ORM\ManyToOne(targetEntity="\StaffBundle\Entity\Staff", inversedBy="event")
      * @ORM\JoinColumn(name="staff_id", referencedColumnName="id")
      */
     private $staff;

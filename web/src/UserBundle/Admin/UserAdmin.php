@@ -16,6 +16,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\AdminType;
 use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -37,45 +38,23 @@ use UserBundle\Form\RegisterUserForm;
 final class UserAdmin extends AbstractAdmin
 {
 
-//    //Если не получается отредактировать Пользователя. Ругается на пароль
-//    protected $formOptions = array(
-//        'validation_groups' => array('Profile')
-//    );
-// preUpdate  -  можно ее переопределить
-
-    protected static function flattenRoles($rolesHierarchy)
-    {
-        $flatRoles = array();
-        foreach($rolesHierarchy as $roles) {
-            if(empty($roles)) {
-                continue;
-            }
-            foreach($roles as $role) {
-                if(!isset($flatRoles[$role])) {
-                    $flatRoles[$role] = $role;
-                }
-            }
-        }
-
-        return $flatRoles;
+    public function getContainer(){
+        return $this->getConfigurationPool()->getContainer();
     }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-//        $container = $this->getConfigurationPool()->getContainer();
-//        $roles = $container->getParameter('security.role_hierarchy.roles');
-//
-//        $rolesChoices = self::flattenRoles($roles);
-
-//        $em = Core::em();
-//        $roleRepo = $em->getRepository(Roles::class);
 
         $formMapper
-            ->add('username', TextType::class)
+            ->with('User name')
+                ->add('account', 'sonata_type_admin')
+            ->end()
+            ->add('username', TextType::class, [
+                'label' => 'login'
+            ])
             ->add('email', RepeatedType::class, [
-                'type' => EmailType::class,
-                'invalid_message' => 'The email address is invalid.',
+                'type' => EmailType::class,'invalid_message' => 'The email address is invalid.',
                 'options' => ['attr' => ['class' => 'email-field']],
                 'required' => true,
                 'first_options'  => ['label' => 'Email'],
@@ -96,25 +75,14 @@ final class UserAdmin extends AbstractAdmin
             ->add('phone', TextType::class, [
                 'attr'=>array('style'=>'width: 40%;')
             ])
-            ->add('roles', null, [
+            ->add('roles', 'sonata_type_model', [
                 'label' => 'Role user',
                 'expanded' => true,
                 'by_reference' => false,
-                'multiple' => true
+                'multiple' => true,
+                'class' => Roles::class,
+                'btn_add' => false,
             ])
-//            ->add('roles', 'choice', array(
-//                    'choices'  => $roleRepo,
-//                    'multiple' => true
-//                )
-//            )
-//            ->add('role', 'choice', array(
-//                'choices' => array(
-//                    'ROLE_USER' => 'User',
-//                    'ROLE_ADMIN' => 'Admin',
-//                    'ROLE_SUPER_ADMIN' => 'Super Admin'
-//                ),
-//                'multiple' => false
-//            ));
     ;
     }
 
@@ -170,21 +138,4 @@ final class UserAdmin extends AbstractAdmin
 //            ->add('author')
 //        ;
     }
-
-//    public function prePersist($object)
-//    {
-//        parent::prePersist($object);
-//
-//        $em = Core::em();
-//        $roleRepo = $em->getRepository(Roles::class);
-//        $role = $roleRepo->findByRole('ROLE_USER');
-//        if (!$role){
-//            $roles = new Roles();
-//            $roles->setName('ROLE USER!');
-//            $roles->setRole('ROLE_USER');
-//            $em->persist($role);
-//            $em->flush();
-//        }
-//
-//    }
 }

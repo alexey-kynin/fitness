@@ -39,7 +39,7 @@ class RecoverPassword
         $token = TokenGenerator::generateToken();
 
         $url = $this->router->generate('recover', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-        $fullname = $user->getFullname();
+        $fullname = $user->getUsername();
         $temlate = $this->twig->render('@User/MailTemplate/recover.html.twig', [
             'url' => $url,
             'fullname' => $fullname
@@ -48,16 +48,15 @@ class RecoverPassword
         /**Кынин. создаем структуру письма*/
         $mail = \Swift_Message::newInstance();
 //        $mail->setFormat('noreplay@userbundle.dev');
-        $mail->setFrom('a_kunin@mail.ru');
+        $mail->setFrom('fitnessclub@mail.ru');
         $mail->setTo($user->getEmail());
-        $mail->setSubject('Recover password');
+        $mail->setSubject('Create a password');
         $mail->setBody($temlate);
 
+        var_dump($token);
         $user->getAccount()->setTokenRecover($token);
         $this->em->persist($user);
         $this->em->flush();
-
-//        var_dump($mail);
 
         $status = $this->mailer->send($mail);
         if($status){

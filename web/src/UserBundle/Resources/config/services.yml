@@ -14,14 +14,26 @@ services:
     arguments:
       - ~
       - UserBundle\Entity\User
-      - ~
+      - 'SonataAdminBundle:CRUD'
     calls:
       - [ setTranslationDomain, [admin]]
     public: true
 
+  user.account.admin.service:
+    class: UserBundle\Admin\UserAccountAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Content", label: "UserAccount", show_in_dashboard: false }
+    arguments:
+      - ~
+      - UserBundle\Entity\UserAccount
+      - 'SonataAdminBundle:CRUD'
+    calls:
+      - [ setTranslationDomain, [admin]]
+    public: false
+
   user.admin.roles:
     class: UserBundle\Admin\UserAdmin
-    arguments: [~, UserBundle\Entity\Roles, ~]
+    arguments: [~, UserBundle\Entity\Roles, 'SonataAdminBundle:CRUD']
     tags:
       - name: sonata.admin
         manager_type: orm

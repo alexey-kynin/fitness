@@ -12,3 +12,12 @@ services:
     public: true
 
 #      - UserBundle\Entity\User
+
+  app.admin.user.account:
+    class: UserBundle\Admin\UserAccountAdmin
+    arguments: [~, UserBundle\Entity\UserAccount, ~]
+    tags:
+      - { name: sonata.admin, manager_type: orm, show_in_dashboard: false }
+    calls:
+      - [ setTranslationDomain, [admin]]
+    public: false

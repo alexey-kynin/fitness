@@ -18,6 +18,21 @@ use UserBundle\Form\Models\ChangePasswordModal;
 
 class UserController extends Controller
 {
+    public function viewAction($id)
+    {
+        $userRepo = $this->getDoctrine()->getRepository('UserBundle:User');
+        $user = $userRepo->find($id);
+
+        if (!$user){
+            throw $this->createNotFoundException("No such user.");
+        }else{
+            return $this->render('@User/user/view.html.twig', [
+                'user' => $user
+            ]);
+        }
+    }
+
+
     public function recoverPasswordAction(Request $request)
     {
         /**

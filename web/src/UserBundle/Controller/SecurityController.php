@@ -68,7 +68,7 @@ class SecurityController extends Controller
              */
             $userAccountRecover = $this->getDoctrine()->getRepository("UserBundle:UserAccount")->findOneByTokenRecover($token);
             if ($userAccountRecover){
-                $userPasswordToken = new UsernamePasswordToken($userAccountRecover->getUser(), null, 'our_users' , $userAccountRecover->getUser()->getRole());
+                $userPasswordToken = new UsernamePasswordToken($userAccountRecover->getUser(), null, 'our_users' , $userAccountRecover->getUser()->getRoles());
                 /** Вставляем в сессию созданный токен */
                 $this->get('security.token_storage')->setToken($userPasswordToken);
                 return $this->redirectToRoute('user_password_recover');
