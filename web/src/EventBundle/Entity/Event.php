@@ -3,6 +3,7 @@
 
 namespace EventBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +37,12 @@ class Event
      * @ORM\JoinColumn(name="staff_id", referencedColumnName="id")
      */
     private $staff;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EventBundle\Entity\UserEvent", mappedBy="event", cascade={"persist", "remove"})
+     */
+    private $user;
+
 
 
     /**
@@ -118,5 +125,46 @@ class Event
     public function getStaff()
     {
         return $this->staff;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add user
+     *
+     * @param \EventBundle\Entity\User $user
+     *
+     * @return Event
+     */
+    public function addUser(\EventBundle\Entity\User $user)
+    {
+        $this->user[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \EventBundle\Entity\User $user
+     */
+    public function removeUser(\EventBundle\Entity\User $user)
+    {
+        $this->user->removeElement($user);
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

@@ -57,7 +57,7 @@ class User implements \Serializable, UserInterface
 
     /**
      * @var ArrayCollection
-         * @ORM\ManyToMany(targetEntity="Roles", inversedBy="users", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Roles", inversedBy="users", cascade={"persist", "remove"})
      * @ORM\JoinTable(
      *      name="user_roles",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
@@ -88,6 +88,11 @@ class User implements \Serializable, UserInterface
      * @ORM\JoinColumn(name="$account", referencedColumnName="id")
      */
     private $account;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EventBundle\Entity\UserEvent", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $event;
 
 
 
@@ -437,5 +442,39 @@ class User implements \Serializable, UserInterface
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         return substr(str_shuffle($chars),0,$length);
 
+    }
+
+    /**
+     * Add event
+     *
+     * @param \EventBundle\Entity\Event $event
+     *
+     * @return User
+     */
+    public function addEvent(\EventBundle\Entity\Event $event)
+    {
+        $this->event[] = $event;
+
+        return $this;
+    }
+
+    /**
+     * Remove event
+     *
+     * @param \EventBundle\Entity\Event $event
+     */
+    public function removeEvent(\EventBundle\Entity\Event $event)
+    {
+        $this->event->removeElement($event);
+    }
+
+    /**
+     * Get event
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvent()
+    {
+        return $this->event;
     }
 }
