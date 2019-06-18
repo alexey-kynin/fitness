@@ -76,11 +76,11 @@ class SecurityController extends Controller
 
         }
 
-        $registerModal = new RecoverUserModel();
-        $recoverForm = $this->createForm(RecoverUserForm::class, $registerModal);
+        $recoverModal = new RecoverUserModel();
+        $recoverForm = $this->createForm(RecoverUserForm::class, $recoverModal);
         $recoverForm->handleRequest($request);
         if($recoverForm->isSubmitted()){
-            $email = $registerModal->getEmail();
+            $email = $recoverModal->getEmail();
 
             $user = $this->getDoctrine()->getRepository('UserBundle:User')->findOneByEmail($email);
             if($user){

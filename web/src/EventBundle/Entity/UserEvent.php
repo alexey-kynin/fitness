@@ -38,16 +38,20 @@ class UserEvent
      */
     private $event;
 
-
     /**
-     * @ORM\Column(type="boolean", options={"default":"0"})
+     * @ORM\Column(type="text", options={"default":0})
      */
-    private $byEmail;
+    private $subscribe;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default":"0"})
-     */
-    private $byPhone;
+//    /**
+//     * @ORM\Column(type="boolean", options={"default":"0"})
+//     */
+//    private $byEmail;
+//
+//    /**
+//     * @ORM\Column(type="boolean", options={"default":"0"})
+//     */
+//    private $byPhone;
 
     /**
      * Get id
@@ -155,5 +159,29 @@ class UserEvent
     public function getByPhone()
     {
         return $this->byPhone;
+    }
+
+    /**
+     * Set subscribe
+     *
+     * @param string $subscribe
+     *
+     * @return UserEvent
+     */
+    public function setSubscribe($subscribe)
+    {
+        $this->subscribe = $subscribe;
+
+        return $this;
+    }
+
+    /**
+     * Get subscribe
+     *
+     * @return string
+     */
+    public function getSubscribe()
+    {
+        return $this->subscribe;
     }
 }
