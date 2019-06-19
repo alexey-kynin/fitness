@@ -43,7 +43,13 @@ class Event
      */
     private $user;
 
-
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -126,13 +132,7 @@ class Event
     {
         return $this->staff;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
 
     /**
      * Add user

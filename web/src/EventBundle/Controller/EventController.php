@@ -35,9 +35,12 @@ class EventController extends Controller
             $subscribeForm->handleRequest($request);
             if($subscribeForm->isSubmitted()){
                 $userEvent = $subscribeModal->subscribeUser($user ,$event);
+
                 $em = Core::em();
                 $em->persist($userEvent);
                 $em->flush();
+
+                return $this->redirectToRoute('event_view', ['id' => $event->getId()]);
             }
 
             return $this->render('@Event/Page/view.html.twig', [

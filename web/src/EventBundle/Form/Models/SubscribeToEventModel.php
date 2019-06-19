@@ -73,7 +73,11 @@ class SubscribeToEventModel
 
         $userEvent->setUser($user);
         $userEvent->setEvent($event);
-        $userEvent->setByEmail($this->subscribe);
+        $userEvent->setSubscribe($this->subscribe);
+
+//        var_dump($event->getId());
+//        var_dump($user->getId());
+//        var_dump($this->subscribe);
 //        $userEvent->setByEmail($this->byPhone);
 
         return $userEvent;

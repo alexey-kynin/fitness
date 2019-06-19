@@ -39,7 +39,7 @@ class UserEvent
     private $event;
 
     /**
-     * @ORM\Column(type="text", options={"default":0})
+     * @ORM\Column(type="string")
      */
     private $subscribe;
 
@@ -172,7 +172,7 @@ class UserEvent
     {
         $this->subscribe = $subscribe;
 
-        return $this;
+//        return $this;
     }
 
     /**

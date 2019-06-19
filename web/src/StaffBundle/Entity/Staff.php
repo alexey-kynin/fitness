@@ -29,6 +29,14 @@ class Staff
      */
     private $event;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->event = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     public function __toString()
     {
         return $this->getName();
@@ -90,13 +98,6 @@ class Staff
     public function getEvent()
     {
         return $this->event;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->event = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

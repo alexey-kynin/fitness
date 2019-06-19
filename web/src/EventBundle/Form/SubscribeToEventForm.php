@@ -29,6 +29,9 @@ class SubscribeToEventForm extends AbstractType
 //        $builder->add('byPhone', TextType::class, [
 //            'label' => 'By phone'
 //        ]);
+//        $builder->add('subscribe', TextType::class, [
+//            'label' => 'subscribe!!!^ '
+//        ]);
         $builder->add('subscribe', ChoiceType::class, [
             'label' => 'subscribe',
             'choices'  => [
