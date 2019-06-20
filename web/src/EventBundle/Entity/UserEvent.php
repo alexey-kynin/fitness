@@ -15,7 +15,10 @@ use Doctrine\ORM\Mapping as ORM;
  * Class Staff
  * @package EventBundle\Entity
  * @ORM\Entity()
- * @ORM\Table(name = "user_event")
+ * @ORM\Table(name="user_event",
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="unique_data",columns={"user_id", "event_id"})
+ *      })
  */
 class UserEvent
 {

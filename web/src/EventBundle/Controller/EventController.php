@@ -4,6 +4,8 @@ namespace EventBundle\Controller;
 
 
 use CoreBundle\Core\Core;
+use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\ORMException;
 use EventBundle\Form\Models\SubscribeToEventModel;
 use EventBundle\Form\SubscribeToEventForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,23 +31,32 @@ class EventController extends Controller
             throw $this->createNotFoundException("! There is no such thing.");
         }else{
             $user = $this->getUser();
-
             $subscribeModal = new SubscribeToEventModel();
             $subscribeForm = $this->createForm(SubscribeToEventForm::class, $subscribeModal);
             $subscribeForm->handleRequest($request);
             if($subscribeForm->isSubmitted()){
-                $userEvent = $subscribeModal->subscribeUser($user ,$event);
+                if (!$user){
+                    return $this->redirectToRoute('security_login');
+                }else{
+                    try{
+                        $userEvent = $subscribeModal->subscribeUser($user ,$event);
+                        $em = Core::em();
+                        $em->persist($userEvent);
+                        $em->flush();
+                        $message = 'Done';
+                        return $this->redirectToRoute('event_view', ['id' => $event->getId()]);
 
-                $em = Core::em();
-                $em->persist($userEvent);
-                $em->flush();
-
-                return $this->redirectToRoute('event_view', ['id' => $event->getId()]);
+                    }catch (DBALException $e) {
+                        $message = sprintf('DBALException [%i]: %s', $e->getCode(), $e->getMessage());
+                    }
+//                    echo $message;
+                }
             }
 
             return $this->render('@Event/Page/view.html.twig', [
                 'event' => $event,
-                'subscribe_form' => $subscribeForm->createView()
+                'subscribe_form' => $subscribeForm->createView(),
+                'message' => $message
             ]);
         }
     }

@@ -8,5 +8,7 @@
             <div class="fields-event--staff">{{ event.staff.name}}</div>
         </div>
         {{ form(subscribe_form) }}
+        <div class="block-error">{{ message }}</div>
+        {{ dump(event) }}
     </div>
 {% endblock %}
