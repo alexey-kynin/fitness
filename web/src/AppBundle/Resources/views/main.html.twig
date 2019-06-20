@@ -1,6 +1,12 @@
-{% extends '@WebProfiler/Profiler/base.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% block body %}
-    {% block main %}{% endblock %}
+    {% block main %}
+        <div class="container">
+            <div class="row">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    {% endblock %}
     {% block footer %}{% endblock %}
 {% endblock %}

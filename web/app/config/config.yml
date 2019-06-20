@@ -30,6 +30,8 @@ framework:
     assets: ~
     php_errors:
         log: true
+    templating:
+        engines: ['twig']
 
 # Twig Configuration
 twig:
@@ -82,3 +84,9 @@ sonata_admin:
     title_logo: bundles/app/images/strong.png
     templates:
         dashboard: '@SonataAdmin/Core/dashboard.html.twig'
+
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
