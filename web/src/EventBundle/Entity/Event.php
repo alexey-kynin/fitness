@@ -5,6 +5,7 @@ namespace EventBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use UserBundle\Entity\User;
 
 /**
  * Class Staff
@@ -137,11 +138,11 @@ class Event
     /**
      * Add user
      *
-     * @param \EventBundle\Entity\User $user
+     * @param User $user
      *
      * @return Event
      */
-    public function addUser(\EventBundle\Entity\User $user)
+    public function addUser(User $user)
     {
         $this->user[] = $user;
 
@@ -151,9 +152,9 @@ class Event
     /**
      * Remove user
      *
-     * @param \EventBundle\Entity\User $user
+     * @param User $user
      */
-    public function removeUser(\EventBundle\Entity\User $user)
+    public function removeUser(User $user)
     {
         $this->user->removeElement($user);
     }

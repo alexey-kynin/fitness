@@ -81,7 +81,7 @@ sonata_block:
 
 sonata_admin:
     title:      Fitness Club
-    title_logo: bundles/app/images/strong.png
+    title_logo: bundles/app/images/fitness.svg
     templates:
         dashboard: '@SonataAdmin/Core/dashboard.html.twig'
 

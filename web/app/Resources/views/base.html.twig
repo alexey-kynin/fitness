@@ -15,7 +15,10 @@
         {#<link rel="stylesheet" href="{{ asset('web/bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}"/>#}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+            {% block header %}{% endblock %}
+        {% endblock %}
+
         {% block javascripts %}
             {% javascripts
                 'build/js/main.js'
