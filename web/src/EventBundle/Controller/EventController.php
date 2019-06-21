@@ -18,8 +18,11 @@ class EventController extends Controller
     {
         $eventRepo = $this->getDoctrine()->getRepository('EventBundle:Event');
         $event = $eventRepo->findAll();
+
+        $user = $this->getUser();
+
         return $this->render('@Event/Page/list.html.twig', [
-            'events' => $event
+            'events' => $event,
         ]);
     }
 
@@ -35,7 +38,7 @@ class EventController extends Controller
             $subscribeForm = $this->createForm(SubscribeToEventForm::class, $subscribeModal);
             $subscribeForm->handleRequest($request);
             if($subscribeForm->isSubmitted()){
-                if (!$user){
+                if (is_null($user)){
                     return $this->redirectToRoute('security_login');
                 }else{
                     try{
@@ -48,6 +51,12 @@ class EventController extends Controller
 
                     }catch (DBALException $e) {
                         $message = sprintf('DBALException [%i]: %s', $e->getCode(), $e->getMessage());
+                    } catch (\PDOException $e) {
+                        $message = sprintf('PDOException [%i]: %s', $e->getCode(), $e->getMessage());
+                    } catch (ORMException $e) {
+                        $message = sprintf('ORMException [%i]: %s', $e->getCode(), $e->getMessage());
+                    } catch (\Exception $e) {
+                        $message = sprintf('Exception [%i]: %s', $e->getCode(), $e->getMessage());
                     }
 //                    echo $message;
                 }
@@ -55,8 +64,9 @@ class EventController extends Controller
 
             return $this->render('@Event/Page/view.html.twig', [
                 'event' => $event,
+                'user' => $user,
                 'subscribe_form' => $subscribeForm->createView(),
-                'message' => $message
+//                'message' => $message
             ]);
         }
     }

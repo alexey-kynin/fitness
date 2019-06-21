@@ -9,7 +9,9 @@
             <div class="event-list">
                 {% for event in events %}
                     <div class="event-list--item">
-                        {{ include('@Event/ViewModal/event_list.html.twig', { 'item' : event}) }}
+                        {{ include('@Event/ViewModal/event_list.html.twig', {
+                            'item' : event
+                        }) }}
                     </div>
                 {% endfor %}
             </div>

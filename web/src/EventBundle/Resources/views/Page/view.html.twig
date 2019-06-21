@@ -1,14 +1,18 @@
 {% extends '@App/main.html.twig' %}
 
-{% block main %}
+{% block content %}
     <div class="block--event-view">
         <div class="block-content">
-            <h2 class="fields-event--title">{{ event.title }}</h2>
+            <h2 class="fields-event--title">123 {{ event.title }}</h2>
             <div class="fields-event--description">{{ event.description }}</div>
             <div class="fields-event--staff">{{ event.staff.name}}</div>
         </div>
-        {{ form(subscribe_form) }}
-        <div class="block-error">{{ message }}</div>
-        {{ dump(event) }}
+
+        {% if user is not null %}
+            {{ form(subscribe_form) }}
+        {% else %}
+            <div class="fields-event_info"><a href="{{ path('security_login') }}">Для оформления подписки авторизируйтесь</a></div>
+        {% endif %}
+
     </div>
 {% endblock %}
