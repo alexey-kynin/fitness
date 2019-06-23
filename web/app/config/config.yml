@@ -85,8 +85,8 @@ sonata_admin:
     templates:
         dashboard: '@SonataAdmin/Core/dashboard.html.twig'
 
-assetic:
-    debug:          '%kernel.debug%'
-    use_controller: '%kernel.debug%'
-    filters:
-        cssrewrite: ~
+#assetic:
+#    debug:          '%kernel.debug%'
+#    use_controller: '%kernel.debug%'
+#    filters:
+#        cssrewrite: ~

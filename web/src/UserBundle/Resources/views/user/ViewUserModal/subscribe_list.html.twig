@@ -1,0 +1,7 @@
+<div class="fields fields-event">
+    {% set path = path('event_view' , {'id' : item.event.id}) %}
+    <div class="fields-event--title"><a href="{{ path }}">{{ item.event.title }}</a></div>
+
+    <div class="fields-event--subscribe">{{ item.subscribe }}</div>
+
+</div>

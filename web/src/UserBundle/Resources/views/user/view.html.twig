@@ -1,6 +1,6 @@
 {% extends '@App/main.html.twig' %}
 
-{% block main %}
+{% block content %}
     <div class="block--user-view">
         <div class="block-content">
             <h2 class="fields-user--title">{{ user.username }}</h2>
@@ -12,7 +12,24 @@
             <div class="fields-user--gender">Пол: {{ user.gender }}</div>
 
             {% set user_id = path('user_password_recover' , {'id' : user.id}) %}
-            <div class="fields-event--trainer"><a href="{{ user_id }}">Изменить пароль</a></div>
+            <div class="fields-event--button"><a href="{{ user_id }}">Изменить пароль</a></div>
+
+
+            {% if userEvent is not null %}
+                <h2 class="fields-subscribe--title">Вы подписаны на следующие события:</h2>
+            {% else %}
+                <h2 class="fields-subscribe--title">Вы не подписаны ни на одно событие</h2>
+            {% endif %}
+            {% for ue in userEvent %}
+                <div class="fields-subscribe-list">
+                    {{ include('@User/user/ViewUserModal/subscribe_list.html.twig', {
+                        'item' : ue
+                    }) }}
+                </div>
+            {% endfor %}
+
+            {% set path = path('event_list') %}
+            <div class="fields-event--all"><a href="{{ path }}">Все события</a></div>
         </div>
     </div>
 {% endblock %}

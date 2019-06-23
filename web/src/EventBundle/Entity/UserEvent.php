@@ -30,14 +30,14 @@ class UserEvent
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="event")
-     * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="event", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="EventBundle\Entity\Event", inversedBy="user")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
      */
     private $event;
 
@@ -187,4 +187,9 @@ class UserEvent
     {
         return $this->subscribe;
     }
+
+    public function getTotalUser(){
+        return $this->getUser()->count();
+    }
+
 }

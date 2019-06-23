@@ -8,7 +8,6 @@ security:
             - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT
 
     encoders:
-#        UserBundle\Entity\User: bcrypt
         UserBundle\Entity\User:
             algorithm: sha1
             encode_as_base64: false
@@ -18,9 +17,6 @@ security:
     providers:
         our_users:
             id: user.provider
-#            entity: { class: UserBundle\Entity\User, property: email }
-#                class: UserBundle\Entity\User
-#                    property: email
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -29,7 +25,6 @@ security:
             security: false
 
         admin:
-#            pattern:            /admin(.*)
             pattern:            ^/admin/.*
             form_login:
                 provider:       our_users
@@ -55,25 +50,18 @@ security:
             form_login:
                 login_path: /login
                 check_path: /login
-
+            logout:
+                path: /logout
             guard:
                 authenticators:
                     - user.security.login_form_authenticator
-            logout:
-                path: /logout
 
     access_control:
-        - { path: ^/user, roles: ROLE_USER}
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
+        - { path: ^/user, role: ROLE_USER}
         - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/recover/*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/recover, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
-            # activate different ways to authenticate
 
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
-
-            # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~

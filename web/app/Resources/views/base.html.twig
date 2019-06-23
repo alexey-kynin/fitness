@@ -4,11 +4,12 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            {% stylesheets
-                'build/css/main.css'
-            %}
-                <link rel="stylesheet" href="{{ asset_url }}" />
-            {% endstylesheets %}
+            {#{% stylesheets#}
+                {#filter='cssrewrite' output='assets/css/main.css'#}
+            {#%}#}
+                {#<link rel="stylesheet" href="{{ asset_url }}" />#}
+            {#{% endstylesheets %}#}
+            <link rel="stylesheet" href="{{ asset('assets/css/main.css')  }}"/>
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         {#<link rel="stylesheet" href="{{ asset('web/bundles/sonatacore/vendor/select2-bootstrap-css/select2-bootstrap.min.css') }}"/>#}
@@ -20,14 +21,15 @@
         {% endblock %}
 
         {% block javascripts %}
-            {% javascripts
-                'build/js/main.js'
-                'build/js/jquery.js'
-                'build/js/libs.min.js'
-                '../../node_modules/bootstrap/dist/js/bootstrap.min.js'
-            %}
-                <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
+            {#{% javascripts#}
+                {#output = 'assets/js/main.js'#}
+                {#output = 'assets/js/jquery.js'#}
+                {#output = 'assets/js/libs.min.js'#}
+                {#output = '../../node_modules/bootstrap/dist/js/bootstrap.min.js'#}
+            {#%}#}
+                {#<script src="{{ asset_url }}"></script>#}
+            {#{% endjavascripts %}#}
+
             {#<script type="text/javascript" src="{{ asset('web/bundles/sonatacore/vendor/jquery/dist/jquery.min.js') }}"></script>#}
             {#<script type="text/javascript" src="{{ asset('web/bundles/sonatacore/vendor/moment/min/moment-with-locales.min.js') }}"></script>#}
             {#<script type="text/javascript" src="{{ asset('web/bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>#}

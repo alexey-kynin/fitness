@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class EventAdmin extends AbstractAdmin
 {
@@ -26,7 +27,7 @@ class EventAdmin extends AbstractAdmin
                 'label' => 'Event Description'
             ))
             ->add('staff', null, [
-                'label' => 'staff user',
+                'label' => 'Trainer',
             ])
         ;
     }
@@ -47,7 +48,10 @@ class EventAdmin extends AbstractAdmin
             ->addIdentifier('title')
             ->add('description')
             ->add('staff', null, [
-                'label' => 'staff user',
+                'label' => 'Trainer',
+            ])
+            ->add('totalUser', IntegerType::class, [
+                'label' => 'Amount user'
             ])
         ;
     }

@@ -38,7 +38,7 @@ class UserProvider implements UserProviderInterface
         if (!$user) {
             throw new UsernameNotFoundException(
                 sprintf(
-                    'User UuuuuP with "%s" email does not exist.',
+                    'User UP with "%s" email does not exist.',
                     $email
                 )
             );
@@ -70,29 +70,34 @@ class UserProvider implements UserProviderInterface
 
     public function supportsClass($class)
     {
-        return $class === User::class;
+        return User::class === $class;
     }
+
+//////////////////////////////////////////////////////////////////
+//    private $em;
 //
-//    public function loadUserByUsername($username)
-//    {
-//        // Кынин. Загружаем пользователя
-//        $user = $this->em->getRepository('UserBundle:User')->loadUserByUsername($username);
-//        if($user){
-//            return $user;
-//        }else{
-//            throw new UsernameNotFoundException(
-//                sprintf('Username "%s" does not exit.', $username)
-//            );
-//        }
+//    public function __construct( EntityManager $entity_manager ) {
+//        $this->em = $entity_manager;
 //    }
 //
-//    public function refreshUser(UserInterface $user)
-//    {
+//    public function loadUserByUsername($username) {
+//        $user = $this->em->getRepository('UserBundle:User')->loadUserByUsername($username);
+//        if($user)
+//            return $user;
+//
+//        throw new UsernameNotFoundException(
+//            sprintf('Username "%s" does not exist.', $username)
+//        );
+//    }
+//
+//    public function refreshUser(UserInterface $user) {
 //        return $this->loadUserByUsername($user->getUsername());
 //    }
 //
-//    public function supportsClass($class)
-//    {
+//    public function supportsClass($class) {
 //        return User::class === $class;
 //    }
+
+
+
 }

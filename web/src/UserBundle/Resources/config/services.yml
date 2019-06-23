@@ -31,10 +31,10 @@ services:
       - [ setTranslationDomain, [admin]]
     public: false
 
-  user.admin.roles:
-    class: UserBundle\Admin\UserAdmin
-    arguments: [~, UserBundle\Entity\Roles, 'SonataAdminBundle:CRUD']
-    tags:
-      - name: sonata.admin
-        manager_type: orm
+#  user.admin.roles:
+#    class: UserBundle\Admin\UserAdmin
+#    arguments: [~, UserBundle\Entity\Roles, 'SonataAdminBundle:CRUD']
+#    tags:
+#      - name: sonata.admin
+#        manager_type: orm
 #        show_in_dashboard: false

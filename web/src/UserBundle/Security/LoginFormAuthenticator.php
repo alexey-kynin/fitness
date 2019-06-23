@@ -53,11 +53,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getCredentials(Request $request)
     {
-//        $isLoginSubmit = $request->getPathInfo() == '/login' && $request->isMethod('POST');
-//        if (!$isLoginSubmit) {
-//            // skip authentication
-//            return;
-//        }
+        $isLoginSubmit = $request->getPathInfo() == '/login' && $request->isMethod('POST');
+        if (!$isLoginSubmit) {
+            // skip authentication
+            return;
+        }
 
         $form = $this->formFactory->create(LoginForm::class);
         $form->handleRequest($request);
@@ -84,13 +84,18 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
     }
 
+    /** Если аунтификация прошла, и нет последней посещенной страницы, то перекидываем на страницу пользователя */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+//        $user = $this->getUser();
+//        $response =  $this->redirectToRoute('user_view', ['id' => $user->getId()]);
+
         $response = new RedirectResponse($this->router->generate('homepage'));
 
         return $response;
     }
 
+    /** Если не прошла регистрация то опять перенаправляем его на страницу /login */
     protected function getLoginUrl()
     {
         return $this->router->generate('security_login');

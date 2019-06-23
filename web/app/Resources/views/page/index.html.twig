@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% block body %}
     <div class="container">
@@ -8,7 +8,12 @@
                     <h1><span>Welcome to</span> fitness club</h1>
                 </div>
 
-                <div class="index-item login-index"><a href="{{ path('security_login') }}">Login</a></div>
+                {% if is_granted('ROLE_USER') %}
+                    <li class="index-item login-index"><a href="{{ path('security_logout') }}">Logout</a></li>
+                {% else %}
+                    <li class="index-item login-index"><a href="{{ path('security_login') }}">Login</a></li>
+                {% endif %}
+
                 <div class="index-item event-index"><a href="{{ path('event_list') }}">Event</a></div>
                 <div class="index-item admin_login-index"><a href="{{ path('admin_login') }}">Login admin</a></div>
 

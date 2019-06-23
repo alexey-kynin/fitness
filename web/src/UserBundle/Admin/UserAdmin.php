@@ -2,6 +2,7 @@
 
 namespace UserBundle\Admin;
 
+use CoreBundle\Core\Core;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -129,13 +130,15 @@ final class UserAdmin extends AbstractAdmin
     }
 
     public function updateUser(User $user) {
-        $password = $user->randomPassword();
-        $user->setPassword($password);
+        $encoder = Core::service('security.password_encoder');
 
-//        $this->get('user.security.recover')->sendEmail($user);
+        $password_random = $user->randomPassword();
+
+        $password = $encoder->encodePassword($user, $password_random);
+
+        $user->setPassword($password);
 
         $usr = $this->getConfigurationPool()->getContainer()->get('user.security.recover');
         $usr->sendEmail($user);
-//        $um->updateUser($u, false);
     }
 }

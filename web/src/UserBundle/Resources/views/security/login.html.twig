@@ -13,5 +13,8 @@
     <label for="password">Password:</label>
     <input type="password" id="password" name="_password" />
 
+    {#{% set user_id = path('user_password_recover' , {'id' : user.id}) %}#}
+    {#<input type="hidden" name="_target_path" value="{{ path('user_view', {'id' : user_id}) }}">#}
+
     <button type="submit">login</button>
 {% endblock %}

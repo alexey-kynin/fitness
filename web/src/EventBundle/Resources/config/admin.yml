@@ -1,5 +1,5 @@
 services:
-  app.admin.event:
+  event.admin:
     class: EventBundle\Admin\EventAdmin
     tags:
       - { name: sonata.admin, manager_type: orm, group: "Content", label: "Event" }
@@ -10,3 +10,15 @@ services:
     calls:
       - [ setTranslationDomain, [EventBundle]]
     public: true
+
+  user.event.admin:
+    class: EventBundle\Admin\UserEventAdmin
+    tags:
+    - { name: sonata.admin, manager_type: orm, group: "Content", label: "Event_USER", show_in_dashboard: false }
+    arguments:
+    - ~
+    - EventBundle\Entity\UserEvent
+    - ~
+    calls:
+    - [ setTranslationDomain, [EventBundle]]
+    public: false

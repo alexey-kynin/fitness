@@ -57,7 +57,7 @@ class User implements \Serializable, UserInterface
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Roles", inversedBy="users", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Roles", inversedBy="users")
      * @ORM\JoinTable(
      *      name="user_roles",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
@@ -256,7 +256,7 @@ class User implements \Serializable, UserInterface
         return serialize([
             $this->id,
             $this->username,
-            $this->password,
+//            $this->password,
         ]);
     }
 
@@ -265,7 +265,7 @@ class User implements \Serializable, UserInterface
         list (
             $this->id,
             $this->username,
-            $this->password,
+//            $this->password,
             ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 
@@ -422,27 +422,6 @@ class User implements \Serializable, UserInterface
         return implode($pass); //turn the array into a string
     }
 
-    function random_str(
-        $length,
-        $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    ) {
-        $str = '';
-        $max = mb_strlen($keyspace, '8bit') - 1;
-        if ($max < 1) {
-            throw new Exception('$keyspace must be at least two characters long');
-        }
-        for ($i = 0; $i < $length; ++$i) {
-            $str .= $keyspace[random_int(0, $max)];
-        }
-        return $str;
-    }
-
-    function rand_string( $length ) {
-
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        return substr(str_shuffle($chars),0,$length);
-
-    }
 
     /**
      * Add event

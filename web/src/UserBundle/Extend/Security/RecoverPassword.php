@@ -53,7 +53,6 @@ class RecoverPassword
         $mail->setSubject('Create a password');
         $mail->setBody($temlate);
 
-        var_dump($token);
         $user->getAccount()->setTokenRecover($token);
         $this->em->persist($user);
         $this->em->flush();

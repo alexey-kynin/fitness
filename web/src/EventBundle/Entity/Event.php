@@ -40,9 +40,12 @@ class Event
     private $staff;
 
     /**
-     * @ORM\OneToMany(targetEntity="EventBundle\Entity\UserEvent", mappedBy="event", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="EventBundle\Entity\UserEvent", mappedBy="event", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      */
     private $user;
+
+    public $totalUser;
+
 
     /**
      * Constructor
@@ -51,6 +54,7 @@ class Event
     {
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
 
     /**
      * Get id
@@ -167,5 +171,9 @@ class Event
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function getTotalUser(){
+        return $this->totalUser =$this->getUser()->count();
     }
 }

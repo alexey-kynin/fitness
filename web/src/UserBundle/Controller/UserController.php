@@ -23,11 +23,16 @@ class UserController extends Controller
         $userRepo = $this->getDoctrine()->getRepository('UserBundle:User');
         $user = $userRepo->find($id);
 
+        $userEventRepo = $this->getDoctrine()->getRepository('EventBundle:UserEvent');
+        $userEvent = $userEventRepo->findByUser($user->getId());
+
+
         if (!$user){
             throw $this->createNotFoundException("No such user.");
         }else{
             return $this->render('@User/user/view.html.twig', [
-                'user' => $user
+                'user' => $user,
+                'userEvent' => $userEvent
             ]);
         }
     }
