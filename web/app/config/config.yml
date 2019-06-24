@@ -84,6 +84,7 @@ sonata_admin:
     title_logo: bundles/app/images/fitness.svg
     templates:
         dashboard: '@SonataAdmin/Core/dashboard.html.twig'
+        show:   '@Event/CRUD/base_show_client.html.twig'
 
 #assetic:
 #    debug:          '%kernel.debug%'

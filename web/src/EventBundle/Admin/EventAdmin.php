@@ -8,12 +8,15 @@
 
 namespace EventBundle\Admin;
 
+
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class EventAdmin extends AbstractAdmin
 {
@@ -53,6 +56,15 @@ class EventAdmin extends AbstractAdmin
             ->add('totalUser', IntegerType::class, [
                 'label' => 'Amount user'
             ])
+            ->add('_action', 'actions', [
+                    'actions' => [
+                        'delete' => [],
+                        'message' => [
+                            'template' => '@Event/CRUD/list__action_message.html.twig',
+                        ]
+                    ]
+                ]
+            )
         ;
     }
 
@@ -61,7 +73,25 @@ class EventAdmin extends AbstractAdmin
         $showMapper
             ->add('title')
             ->add('description')
+            ->add('totalUser', IntegerType::class, [
+                'label' => 'Amount user'
+            ])
+
+//            ->add('_action', 'actions', [
+//                    'actions' => [
+//                        'delete' => [],
+//                        'message' => [
+//                            'template' => '@Event/CRUD/list__action_message.html.twig',
+//                        ]
+//                    ]
+//                ]
+//            )
         ;
     }
 
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection
+            ->add('message', $this->getRouterIdParameter().'/message');
+    }
 }
